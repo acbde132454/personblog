@@ -1,0 +1,49 @@
+确认框:
+layui.use('layer', function(){
+    var layer = layui.layer;
+    layer.confirm('确认退出系统吗？', {
+        btn: ['确定', '取消'], //可以无限个按钮
+        offset : '250px'
+    }, function(index, layero){
+        //按钮【按钮一】的回调
+        location.href = "/blog/user/loginOut";
+    }, function(index){
+        //按钮【按钮二】的回调
+        return
+    });
+});
+
+消息框:
+layui.use('layer',function () {
+   var layer = layui.layer;
+   layer.msg(data.mess,{offset:'t',icon : 5});
+});
+
+普通弹窗:
+layui.use('layer',function () {
+    var layer = layui.layer;
+    layer.open({
+        title: '消息提示',
+        content: data.mess,
+        icon : 1
+});
+});
+
+
+
+Ajax get请求
+$.get("",{},function(data){},'json');
+
+Ajax post请求
+$.get("",{},function(data){},'json');
+
+Ajax请求
+$.ajax({
+    url : '',
+    data : '',
+    type : 'get',
+    dataType : 'json',
+    success : function(data){
+
+    }
+});
