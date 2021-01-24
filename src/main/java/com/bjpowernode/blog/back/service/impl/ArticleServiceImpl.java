@@ -2,8 +2,10 @@ package com.bjpowernode.blog.back.service.impl;
 
 import com.bjpowernode.blog.back.bean.Article;
 import com.bjpowernode.blog.back.bean.Category;
+import com.bjpowernode.blog.back.bean.User;
 import com.bjpowernode.blog.back.mapper.ArticleMapper;
 import com.bjpowernode.blog.back.mapper.CategoryMapper;
+import com.bjpowernode.blog.back.mapper.UserMapper;
 import com.bjpowernode.blog.back.service.ArticleService;
 import com.bjpowernode.blog.base.exception.BlogException;
 import com.bjpowernode.blog.base.exception.BlogExceptionEnum;
@@ -27,6 +29,9 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Autowired
     private CategoryMapper categoryMapper;
+
+    @Autowired
+    private UserMapper userMapper;
 
     @Override
     public void saveOrUpdateArticle(Article article,String aid) {
@@ -88,7 +93,10 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public Article queryById(String aid) {
-        return articleMapper.selectByPrimaryKey(aid);
+        Article article = articleMapper.selectByPrimaryKey(aid);
+        User user = userMapper.selectByPrimaryKey(article.getUid());
+        article.setUid(user.getNickname());
+        return article;
     }
 
     @Override
@@ -97,5 +105,29 @@ public class ArticleServiceImpl implements ArticleService {
         if(count == 0){
             throw new BlogException(BlogExceptionEnum.ARTICLE_DELETE);
         }
+    }
+
+    @Override
+    public List<Article> queryTop6() {
+        Example example = new Example(Article.class);
+        example.setOrderByClause("create_time desc");
+        example.createCriteria().andEqualTo("isOpen","1");
+        return articleMapper.selectByExample(example);
+    }
+
+    //增加点赞数
+    @Override
+    public String addThumbsUp(String aid) {
+        //查询当前文章
+        Article article = articleMapper.selectByPrimaryKey(aid);
+
+        article.setThumbsUp(Integer.parseInt(article.getThumbsUp()) + 1 + "");
+
+        //更新点赞数
+        int count = articleMapper.updateByPrimaryKeySelective(article);
+        if(count == 0){
+            throw new BlogException(BlogExceptionEnum.ARTICLE_THUMBSUP);
+        }
+        return article.getThumbsUp();
     }
 }

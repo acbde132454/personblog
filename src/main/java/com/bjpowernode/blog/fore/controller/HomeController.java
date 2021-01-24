@@ -15,6 +15,6 @@ public class HomeController {
     //首页
     @RequestMapping("/")
     public String index(){
-        return "redirect:/view/index.jsp";
+        return "redirect:/view/article/index.jsp";
     }
 }

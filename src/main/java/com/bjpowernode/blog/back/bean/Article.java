@@ -23,6 +23,7 @@ public class Article {
     @Id
     private String aid;
     private String title;
+    private String digest;
     private String content;
     private String cid;
     private String visit_count;

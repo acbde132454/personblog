@@ -20,7 +20,8 @@ public enum  BlogExceptionEnum{
     ARTICLE_ADD("002-001"),//添加文章失败
     ARTICLE_ISOPEN("002-002"),//修改状态失败
     ARTICLE_UPDATE("002-003"),//修改文章失败
-    ARTICLE_DELETE("002-003");//删除文章失败
+    ARTICLE_DELETE("002-004"),//删除文章失败
+    ARTICLE_THUMBSUP("002-005");//更新点赞数失败
 
     private String type;
 

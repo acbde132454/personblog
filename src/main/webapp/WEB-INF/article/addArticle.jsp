@@ -143,7 +143,10 @@
               <label for="article-title" class="sr-only">标题</label>
               <input type="text" id="article-title" name="title" class="form-control" placeholder="在此处输入标题" required autofocus autocomplete="off">
             </div>
-              <div>
+              <div class="form-group">
+                  <textarea name="digest" class="form-control" rows="3" placeholder="在此处输入文章摘要"></textarea>
+              </div>
+              <div class="form-group">
                   <a href="javascript:;" class="a-upload">
                       <input type="file" name="img" id="uploadLogo" />上传文章LOGO
                   </a>

@@ -25,7 +25,7 @@ Author URL: http://w3layouts.com
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   }
 
-  .wrapper {
+  .loginWrapper {
       width: 100%;
       padding-right: 15px;
       padding-left: 15px;
@@ -34,25 +34,57 @@ Author URL: http://w3layouts.com
   }
 
   @media (min-width: 576px) {
-      .wrapper {
+      .loginWrapper {
           max-width: 540px;
       }
   }
 
   @media (min-width: 768px) {
-      .wrapper {
+      .loginWrapper {
           max-width: 720px;
       }
   }
 
   @media (min-width: 992px) {
-      .wrapper {
+      .loginWrapper {
           max-width: 960px;
       }
   }
 
   @media (min-width: 1200px) {
-      .wrapper {
+      .loginWrapper {
+          max-width: 1140px;
+      }
+  }
+
+  .registWrapper {
+      width: 100%;
+      padding-right: 15px;
+      padding-left: 15px;
+      margin-right: auto;
+      margin-left: auto;
+  }
+
+  @media (min-width: 576px) {
+      .registWrapper {
+          max-width: 540px;
+      }
+  }
+
+  @media (min-width: 768px) {
+      .registWrapper {
+          max-width: 720px;
+      }
+  }
+
+  @media (min-width: 992px) {
+      .registWrapper {
+          max-width: 960px;
+      }
+  }
+
+  @media (min-width: 1200px) {
+      .registWrapper {
           max-width: 1140px;
       }
   }
@@ -120,28 +152,18 @@ Author URL: http://w3layouts.com
       font-weight: normal;
       font-size: 15px;
       text-align: center;
-      color: #fff;
-      background: var(--theme-color);
+      color: white;
+      background: rgb(62,196,131);
       padding: 14px 18px;
       border-radius: 4px;
       transition: 0.3s ease;
-      border: 1px solid var(--theme-color);
   }
 
   .theme-button:hover {
-      background: #ffffff;
-      color: #000000;
+      background: rgb(101,208,156);
+      color: red;
   }
 
-  .form-36-mian {
-      background-size: cover;
-      background-image: linear-gradient(to right, rgba(0, 0, 0, 0.85), rgba(255, 255, 255, 0)), url(../images/women.jpg);
-      background-attachment: fixed;
-      min-height: 100vh;
-      display: grid;
-      align-items: center;
-      padding: 2rem 0;
-  }
 
   .form-inner-cont {
       max-width: 370px;

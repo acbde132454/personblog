@@ -38,7 +38,7 @@
                 <div class="nav wow zoomIn" data-wow-duration="2s">
                     <h1>Andy-Blog</h1>
                     <p>只要朝着一个方向努力，一切都会变得得心应手</p>
-                    <a class="layui-btn layui-btn-normal" style="margin-top: 20px" href="/blog/view/article.jsp">进入我的博客</a>
+                    <a class="layui-btn layui-btn-normal" style="margin-top: 20px" href="/blog/article/articleList">进入我的博客</a>
                 </div>
                 <a class="next wow fadeInUp" data-wow-duration="2s" id="next"></a>
             </div>

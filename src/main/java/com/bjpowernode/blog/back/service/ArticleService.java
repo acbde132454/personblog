@@ -14,4 +14,8 @@ public interface ArticleService {
     Article queryById(String aid);
 
     void deleteArticle(String aid);
+
+    List<Article> queryTop6();
+
+    String addThumbsUp(String aid);
 }

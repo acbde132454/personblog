@@ -18,7 +18,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -39,7 +38,30 @@ public class ArticleController {
     @Autowired
     private ArticleService articleService;
 
+    //增加点赞数
+    @RequestMapping("/article/addThumbsUp")
+    @ResponseBody
+    public ResultVo addThumbsUp(String aid){
+        ResultVo resultVo = new ResultVo();
+        try {
+            String thumbsUp = articleService.addThumbsUp(aid);
+            resultVo.setOk(true);
+            resultVo.setMess(thumbsUp);
+        }catch (BlogException e){
+            resultVo.setOk(true);
+            e.printStackTrace();
+        }
+        return resultVo;
+    }
 
+    //前提查询文章
+    @RequestMapping("/article/articleList")
+    public String articleList(Model model){
+        //查询最新发布的前6篇文章
+        List<Article> articles = articleService.queryTop6();
+        model.addAttribute("articles",articles);
+        return "../../view/article/article";
+    }
     //根据主键查询文章信息
     @RequestMapping("/article/queryById")
     public String queryById(String aid, Model model){
@@ -47,6 +69,15 @@ public class ArticleController {
         model.addAttribute("article",article);
         return "updateArticle";
     }
+
+    //根据主键查询文章信息,跳转到前台文章详情页
+    @RequestMapping("/article/queryByIdToDetail")
+    public String queryByIdToDetail(String aid, Model model){
+        Article article = articleService.queryById(aid);
+        model.addAttribute("article",article);
+        return "../../view/article/articleDetail";
+    }
+
     //异步更新文章是否公开
     @RequestMapping("/article/updateIsOpen")
     @ResponseBody
