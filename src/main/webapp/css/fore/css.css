@@ -8,7 +8,6 @@
 }
 
 .dedemao-comment {
-	-webkit-appearance:
 }
 
 .dedemao-comment {
@@ -106,7 +105,7 @@
 	outline: 0;
 	padding: 10px;
         box-sizing: border-box;
-        background: url(/blog/images/comment_bg.png) 100% 100% no-repeat;
+        background: url('/blog/images/comment_bg.png') 100% 100% no-repeat;
 }
 
 .dedemao-comment .b-emote-submit {
@@ -284,11 +283,11 @@
 }
 
 .dedemao-comment .ds-add-emote:hover {
-	background: transparent url(../images/mood-hover.png) no-repeat
+	background: transparent url(/blog/images/mood-hover.png) no-repeat
 }
 
 .dedemao-comment .ds-img-button:hover {
-	background: transparent url(../images/img-hover.png) no-repeat
+	background: transparent url(/blog/images/img-hover.png) no-repeat
 }
 
 .dedemao-comment .ds-toolbar-button:hover {
@@ -315,7 +314,7 @@
 	height: 19px;
 	float: left;
 	margin: 7px 5px 4px 10px;
-	background: transparent url(../images/img.png) no-repeat;
+	background: transparent url(/blog/images/img.png) no-repeat;
 	vertical-align: middle;
 	opacity: .6;
 	-webkit-transition: opacity .15s linear;
@@ -422,7 +421,7 @@
 	width: 12px;
 	height: 12px;
 	vertical-align: -2px;
-	background: url(../images/arrow.png);
+	background: url(/blog/images/arrow.png);
 	margin-left: 6px
 }
 
@@ -432,7 +431,7 @@
 }
 
 .dedemao-comment .section-page-w .cmt-more-wrap-gw:hover .more-arrow-ico {
-	background: url(../images/arrow-hover.png)
+	background: url(/blog/images/arrow-hover.png)
 }
 
 .error-tip a {
@@ -821,7 +820,7 @@ button.attach-image-cancel-btn {
 
 .dedemao-photo-viewer-navleft,.dedemao-photo-viewer-navright {
 	bottom: 0;
-	background: url(../images/s.gif);
+	background: url("/blog/images/s.gif");
 	position: absolute
 }
 

@@ -16,10 +16,13 @@
     <link rel="stylesheet" href="/blog/css/fore/nprogress.css"/>
     <link rel="stylesheet" href="/blog/css/fore/blog.css"/>
     <link rel="stylesheet" href="/blog/css/fore/admin.css">
+    <link rel="stylesheet" href="/blog/css/fore/message.css" />
     <link type="text/css" rel="stylesheet" href="/blog/css/fore/shcore.css"/>
     <link type="text/css" rel="stylesheet" href="/blog/css/fore/shthemedefault.css"/>
+    <link href="/blog/css/fore/css.css" rel="stylesheet">
     <script language="javascript" type="text/javascript" src="/blog/js/code.js"></script>
     <script src="/blog/js/jquery/jquery-2.1.1.min.js"></script>
+
     <%--editormd--%>
     <link rel="stylesheet" href="/blog/editormd/css/editormd.css"/>
     <script src="/blog/editormd/lib/marked.min.js"></script>
@@ -29,26 +32,6 @@
     <script src="/blog/editormd/lib/flowchart.min.js"></script>
     <script src="/blog/editormd/lib/jquery.flowchart.min.js"></script>
     <script src="/blog/editormd/editormd.js"></script>
-    <script>
-        var _hmt = _hmt || [];
-        (function () {
-            var hm = document.createElement("script");
-            hm.src = "https://hm.baidu.com/hm.js?d37cd8cdbb97246df80b9f4762c17003";
-            var s = document.getElementsByTagName("script")[0];
-            s.parentNode.insertBefore(hm, s);
-        })();
-    </script>
-
-    <script language="javascript" type="text/javascript" src="/blog/js/dedeajax2.js"></script>
-    <script language="javascript" type="text/javascript">
-
-        function CheckLogin() {
-            var taget_obj = document.getElementById('_userlogin');
-            myajax = new DedeAjax(taget_obj, false, false, '', '', '');
-            myajax.SendGet2("/member/ajax_loginsta.php");
-            DedeXHTTP = null;
-        }
-    </script>
 </head>
 <body>
 <div class="header">
@@ -56,7 +39,7 @@
 <header class="gird-header">
     <div class="header-fixed">
         <div class="header-inner">
-            <a href="javascript:void(0)" class="header-logo" id="logo">Mr.liu</a>
+            <a href="javascript:void(0)" class="header-logo" id="logo">Andy.Hu</a>
             <nav class="nav" id="nav">
                 <ul>
                     <li><a href="http://www.lzqcode.com">首页</a></li>
@@ -75,10 +58,6 @@
                <div class="blog-user">
                     <button class="login-btn" id="login-btn">登录</button>
                 </div>
-                <!--<a href="/oauth/index_do.php?action=oauth&type=qq" class="blog-user">
-                      <i class="fa fa-qq"></i>
-                  </a>-->
-                 <script language="javascript" type="text/javascript">CheckLogin();</script>
                  </span>
             <a class="phone-menu">
                 <i></i>
@@ -218,10 +197,8 @@
                         <h6>发表评论</h6>
 
                         <!-- //AJAX评论区 开始 -->
-                        <link href="/blog/css/fore/css.css" rel="stylesheet">
                         <div class="dedemao-comment">
                             <div class="dedemao-comment-box">
-                                <!-- <img class="b-head-img" src="static/picture/default_head_img.gif">-->
                                 <div class="b-box-textarea">
                                     <div class="b-box-textarea-body">
                                         <div class="b-box-content" contenteditable="true" onfocus="delete_hint(this)">
@@ -257,182 +234,137 @@
                             </div>
                             <div class="dedemao-comment-title" style="border-bottom: 1px solid #6bc30d;">
                                 <ul class="row">
-                                    <li class="" style="float: left;"><h5 class="custom-title">
-                                        <i class="fa fa-comments-o fa-fw icon"></i>
-                                        <span style="color: #cccccc"> | </span>
-                                        <strong><span class="comment-count"
-                                                      style="color: #2C662D">0</span>&nbsp;评论</strong>
-                                    </h5></li>
+                                    <li class="" style="float: left;">
+                                        <h5 class="custom-title">
+                                            <i class="fa fa-comments-o fa-fw icon"></i>
+                                            <span style="color: #cccccc"> | </span>
+                                            <strong><span class="comment-count"
+                                                          style="color: #2C662D">0</span>&nbsp;评论</strong>
+                                        </h5>
+                                    </li>
                                     <li class=" text-right" style="float: right;">
-                <span class="icon2">
-                    <input type="radio" name="commentorder" id="commentnew" checked="checked" value="DESC">
-                    <label for="commentnew">最新</label>
-                    <input type="radio" name="commentorder" id="commentlatest" value="ASC">
-                    <label for="commentlatest">最早</label>
-                </span>
+                                        <span class="icon2">
+                                            <input type="radio" name="commentorder" id="commentnew" checked="checked" value="DESC">
+                                            <label for="commentnew">最新</label>
+                                            <input type="radio" name="commentorder" id="commentlatest" value="ASC">
+                                            <label for="commentlatest">最早</label>
+                                        </span>
                                     </li>
                                 </ul>
                             </div>
-                            <div class=" b-user-comment">
-                                <div class="comment-load" style="display: none;"><img src="/blog/images/loader.gif"
-                                                                                      alt=""></div>
-                                <div class="row b-user b-parent comm_list">
-                                    <ul class="list" id="ulcommentlist">
-                                        <div class="empty-prompt-w">
-                                            <span class="prompt-null-w">还没有评论，快来抢沙发吧！</span>
-                                            <li>
-                                                <small><img src="/blog/images/12948bc65bb641ae80600b2dde38d345.gif"><a
-                                                        href="#">随缘（滁州）</a> 评论 <a
-                                                        href="/plus/view.php?aid=6">Java学习路线推荐</a></small>
-                                                ：不错的文章
-                                            </li>
-                                            <li>
-                                                <small><img src="/blog/images/default_head_img.gif"><a href="#">321</a>
-                                                    评论 <a href="/plus/view.php?aid=6">Java学习路线推荐</a></small>
-                                                ：img src=/plus/dedemao-comment/face/kkl.gif title=快哭了
-                                            </li>
-                                            <li>
-                                                <small><img src="static/picture/default_head_img.gif"><a
-                                                        href="#">123123</a> 评论 <a
-                                                        href="/plus/view.php?aid=6">Java学习路线推荐</a></small>
-                                                ：img src=/plus/dedemao-comment/face/fd.gif title=发呆
-                                            </li>
-                                            <li>
-                                                <small><img src="static/picture/default_head_img.gif"><a
-                                                        href="#">123123</a> 评论 <a
-                                                        href="/plus/view.php?aid=6">Java学习路线推荐</a></small>
-                                                ：hello,world
-                                            </li>
-                                            <li>
-                                                <small><img src="static/picture/default_head_img.gif"><a
-                                                        href="#">1515</a> 评论 <a
-                                                        href="/plus/view.php?aid=6">Java学习路线推荐</a></small>
-                                                ：各个环节根据海关监管环境更加
-                                            </li>
-                                            <li>
-                                                <small><img src="/blog/images/26b3040f40414ac68a86b510cfe25303.gif"><a
-                                                        href="#">醒不来的梦°</a> 评论 <a
-                                                        href="/plus/view.php?aid=6">Java学习路线推荐</a></small>
-                                                ：img src=/plus/dedemao-comment/face/fd.gif title=发呆
-                                            </li>
-                                            <li>
-                                                <small><img src="static/picture/26b3040f40414ac68a86b510cfe25303.gif"><a
-                                                        href="#">醒不来的梦°</a> 评论 <a
-                                                        href="/plus/view.php?aid=6">Java学习路线推荐</a></small>
-                                                ：img src=/plus/dedemao-comment/face/fd.gif title=发呆
-                                            </li>
-                                            <li>
-                                                <small><img src="/blog/images/default_head_img.gif"><a
-                                                        href="#">nanchen</a> 评论 <a href="/plus/view.php?aid=6">Java学习路线推荐</a>
-                                                </small>
-                                                ：dsadasdsad
-                                            </li>
-                                            <li>
-                                                <small><img src="static/picture/default_head_img.gif"><a href="#">呐喊</a>
-                                                    评论 <a href="/plus/view.php?aid=6">Java学习路线推荐</a></small>
-                                                ：img src=/plus/dedemao-comment/face/bs.gif title=鄙视
-                                            </li>
-                                            <li>
-                                                <small><img src="static/picture/93f9ef1d8be544c89b476be4be36cdb4.gif"><a
-                                                        href="#">HelloBird</a> 评论 <a href="/plus/view.php?aid=6">Java学习路线推荐</a>
-                                                </small>
-                                                ：O(∩_∩)O
-                                            </li>
-                                            <li>
-                                                <small><img src="static/picture/93f9ef1d8be544c89b476be4be36cdb4.gif"><a
-                                                        href="#">HelloBird</a> 评论 <a href="/plus/view.php?aid=6">Java学习路线推荐</a>
-                                                </small>
-                                                ：请稍等休息一下！
-                                            </li>
-                                            <li>
-                                                <small><img src="static/picture/93f9ef1d8be544c89b476be4be36cdb4.gif"><a
-                                                        href="#">HelloBird</a> 评论 <a href="/plus/view.php?aid=6">Java学习路线推荐</a>
-                                                </small>
-                                                ：img src=/plus/dedemao-comment/face/qiang.gif title=强
-                                            </li>
-                                            <li>
-                                                <small><img src="static/picture/93f9ef1d8be544c89b476be4be36cdb4.gif"><a
-                                                        href="#">HelloBird</a> 评论 <a href="/plus/view.php?aid=6">Java学习路线推荐</a>
-                                                </small>
-                                                ：img src=/plus/dedemao-comment/face/qiang.gif title=强
-                                            </li>
-                                            <li>
-                                                <small><img src="static/picture/89078e548e88481fa9706ed0c25da933.gif"><a
-                                                        href="#">HelloBird</a> 评论 <a href="/plus/view.php?aid=6">Java学习路线推荐</a>
-                                                </small>
-                                                ：img src=/plus/dedemao-comment/face/ku.gif title=酷
-                                            </li>
-                                            <li>
-                                                <small><img src="static/picture/36c28829a0cd4e369c1a80e2b868ae50.gif"><a
-                                                        href="#">禁止香菜</a> 评论 <a
-                                                        href="/plus/view.php?aid=6">Java学习路线推荐</a></small>
-                                                ：Hi~nbsp;o(*￣▽￣*)ブ
-                                            </li>
-                                            <li>
-                                                <small><img src="static/picture/36c28829a0cd4e369c1a80e2b868ae50.gif"><a
-                                                        href="#">禁止香菜</a> 评论 <a
-                                                        href="/plus/view.php?aid=6">Java学习路线推荐</a></small>
-                                                ：img src=/plus/dedemao-comment/face/hx.gif title=害羞
-                                            </li>
-                                            <li>
-                                                <small><img src="static/picture/fb6f5cf442254618b9d0c88d2b6f82ac.gif"><a
-                                                        href="#">Zain</a> 评论 <a
-                                                        href="/plus/view.php?aid=6">Java学习路线推荐</a></small>
-                                                ：img src=/plus/dedemao-comment/face/fd.gif title=发呆
-                                            </li>
-                                            <li>
-                                                <small><img src="static/picture/myface.png"><a href="#">小刘</a> 评论 <a
-                                                        href="/plus/view.php?aid=6">Java学习路线推荐</a></small>
-                                                ： 好玩吧
-                                            </li>
+                            <div class="mt20">
+                                <ul class="message-list" id="message-list">
+                                    <li class="zoomIn article">
+                                        <div class="comment-parent">
+                                            <a name="remark-1"></a>
+                                            <img src="http://qzapp.qlogo.cn/qzapp/101871412/EE7AAE629D162B783C00149B4EDE3502/100" />
+                                            <div class="info">
+                                                <span class="username">冰</span>
+                                            </div>
+                                            <div class="comment-content">
+                                                大哥带一下
+                                            </div>
+                                            <p class="info info-footer">
+                                                <i class="fa fa-map-marker" aria-hidden="true"></i>
+                                                <span>深圳</span>
+                                                <span class="comment-time">2020-07-01</span>
+                                                <a href="javascript:;" class="btn-reply" data-targetid="1" data-targetname="冰">回复</a>
+                                            </p>
                                         </div>
-
-                                    </ul>
-                                </div>
-                                <div class="row">
-                                    <div class="">
-                                        <div class="b-border"></div>
-                                    </div>
-                                </div>
+                                        <hr />
+                                        <div class="comment-child">
+                                            <a name="reply-1"></a>
+                                            <img src="http://www.lzqcode.com/uploads/userup/57/myface.png">
+                                            <div class="info">
+                                                <span class="username">小刘</span>
+                                                <span style="padding-right:0;margin-left:-5px;">回复</span>
+                                                <span class="username">冰</span>
+                                                <span>哈哈哈哈哈哈哈哈哈哈或或或或或或或或或或或或或或或</span>
+                                            </div>
+                                            <p class="info">
+                                                <i class="fa fa-map-marker" aria-hidden="true"></i>
+                                                <span>深圳</span>
+                                                <span class="comment-time">2018-01-01</span>
+                                                <a href="javascript:;" class="btn-reply" data-targetid="2" data-targetname="小刘">回复</a>
+                                            </p>
+                                        </div>
+                                        <div class="replycontainer layui-hide">
+                                            <form class="layui-form" action="">
+                                                <input type="hidden" name="remarkId" value="1">
+                                                <input type="hidden" name="targetUserId" value="0">
+                                                <div class="layui-form-item">
+                                                    <textarea name="replyContent" lay-verify="replyContent" placeholder="请输入回复内容" class="layui-textarea" style="min-height:80px;"></textarea>
+                                                </div>
+                                                <div class="layui-form-item">
+                                                    <button class="layui-btn layui-btn-xs" lay-submit="formReply" lay-filter="formReply">提交</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </li>
+                                    <li class="zoomIn article">
+                                        <div class="comment-parent">
+                                            <a name="remark-1"></a>
+                                            <img src="http://qzapp.qlogo.cn/qzapp/101871412/EE7AAE629D162B783C00149B4EDE3502/100" alt="{{name}}" />
+                                            <div class="info">
+                                                <span class="username">冰</span>
+                                            </div>
+                                            <div class="comment-content">
+                                                一天很短，开心了就笑，不开心了就过会儿再笑。
+                                            </div>
+                                            <p class="info info-footer">
+                                                <i class="fa fa-map-marker" aria-hidden="true"></i>
+                                                <span>深圳</span>
+                                                <span class="comment-time">2018-01-01</span>
+                                                <a href="javascript:;" class="btn-reply" data-targetid="1" data-targetname="冰">回复</a>
+                                            </p>
+                                        </div>
+                                        <div class="replycontainer layui-hide">
+                                            <form class="layui-form" action="">
+                                                <input type="hidden" name="remarkId" value="1">
+                                                <input type="hidden" name="targetUserId" value="0">
+                                                <div class="layui-form-item">
+                                                    <textarea name="replyContent" lay-verify="replyContent" placeholder="请输入回复内容" class="layui-textarea" style="min-height:80px;"></textarea>
+                                                </div>
+                                                <div class="layui-form-item">
+                                                    <button class="layui-btn layui-btn-xs" lay-submit="formReply" lay-filter="formReply">提交</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </li>
+                                    <li class="zoomIn article">
+                                        <div class="comment-parent">
+                                            <a name="remark-1"></a>
+                                            <img src="http://www.lzqcode.com/uploads/userup/57/myface.png"/>
+                                            <div class="info">
+                                                <span class="username">小刘</span>
+                                            </div>
+                                            <div class="comment-content">
+                                                哈哈哈哈哈哈哈哈哈或或或或或或或或或或或或或或
+                                            </div>
+                                            <p class="info info-footer">
+                                                <i class="fa fa-map-marker" aria-hidden="true"></i>
+                                                <span>深圳</span>
+                                                <span class="comment-time">2018-01-01</span>
+                                                <a href="javascript:;" class="btn-reply" data-targetid="1" data-targetname="小刘">回复</a>
+                                            </p>
+                                        </div>
+                                        <hr />
+                                        <div class="replycontainer layui-hide">
+                                            <form class="layui-form" action="">
+                                                <input type="hidden" name="remarkId" value="1">
+                                                <input type="hidden" name="targetUserId" value="0">
+                                                <div class="layui-form-item">
+                                                    <textarea name="replyContent" lay-verify="replyContent" placeholder="请输入回复内容" class="layui-textarea" style="min-height:80px;"></textarea>
+                                                </div>
+                                                <div class="layui-form-item">
+                                                    <button class="layui-btn layui-btn-xs" lay-submit="formReply" lay-filter="formReply">提交</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </li>
+                                </ul>
                             </div>
-                            <div class="row">
-                                <div class="">
-                                    <div class="b-border"></div>
-                                </div>
-                            </div>
-                            <div class="section-page-w"></div>
                         </div>
-
-                        <script>
-                            var jDedemao = jQuery.noConflict(true);
-                            jDedemao(function () {
-                                jDedemao(".comment-load").show();
-                                get_ajax_comment('6', 0, 10);
-                                getHeadPic();
-                            });
-                            jDedemao("input[name='commentorder']").change(function () {
-                                jDedemao(".comment-load").show();
-                                var orderWay = $(this).val();
-                                get_ajax_comment('6', 0, 10, orderWay, 'refresh');
-                            });
-                            var showZan = '1';
-                            var comment_tips = '说点什么吧';
-                            var show_floor = '1';
-                            var showQQ = '1';
-                            var comment_ipaddr = '1';
-                            var PLUS_URL = "/plus";
-                            var visitor_fill = "电子邮箱";
-                            var is_login = 0;
-                            var comment_at = "1";
-                            var comment_basecolor = "#6bc30d";
-                        </script>
-
-
-                        <script>
-                            var a = jDedemao.noConflict(true);
-                            //其它库的代码
-                            window.$ = window.jQuery = a;
-                        </script>
                         <!-- //AJAX评论区 结束 -->
                     </section>
                 </article>
@@ -462,9 +394,10 @@
 <script src="/blog/layui/layui.js"></script>
 <script src="/blog/js/yss/gloable.js"></script>
 <script src="/blog/js/plugins/nprogress.js"></script>
-<script src="/blog/js/pagemessage.js"></script>
+
 <script src="/blog/js/logreg.js"></script>
 <script src="/blog/js/comment.js"></script>
+<script src="/blog/js/pagemessage.js"></script>
 
 
 <script>NProgress.start();</script>
@@ -473,26 +406,7 @@
     window.onload = function () {
         NProgress.done();
     };
-    (function () {
-        var bp = document.createElement('script');
-        var curProtocol = window.location.protocol.split(':')[0];
-        if (curProtocol === 'https') {
-            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
-        }
-        else {
-            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-        }
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(bp, s);
-    })();
 </script>
 
-<script type="text/javascript">
-    $(function () {
-        $(".nav-search-box ul li a span").addClass(function (index) {
-            return "hot" + index;
-        })
-    });
-</script>
 </body>
 </html>

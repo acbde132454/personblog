@@ -23,8 +23,8 @@ layui.use(['element', 'jquery', 'form', 'layedit', 'flow'], function () {
     });
     //回复按钮点击事件
     $('#message-list').on('click', '.btn-reply', function () {
-         var targetId = $(this).data('targetid')
-             , targetName = $(this).data('targetname')
+         var targetId = $(this).data('targetid'),
+             targetName = $(this).data('targetname')
              , $container = $(this).parent('p').parent().siblings('.replycontainer');
          if ($(this).text() == '回复') {
              $container.find('textarea').attr('placeholder', '回复【' + targetName + '】');
