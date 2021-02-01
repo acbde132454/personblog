@@ -21,6 +21,6 @@
 .comment-parent>img{width:45px;height:45px;margin:5px 5px 5px 0;position:absolute;border-radius:50px}
 .comment-child>img{width:40px;height:40px;margin:5px 5px 5px 0;position:absolute;border-radius:50px}
 .comment-child{margin-left:53px;min-height:50px}
-.comment-child .info{margin-left:48px;font-size:12px;line-height:20px}
+.comment-child .info{margin-left:100px;font-size:12px;line-height:20px}
 .areaImg{width:12px!important;height:13px!important}
 .fa-map-marker{margin: 0 5px;font-size: 15px;}

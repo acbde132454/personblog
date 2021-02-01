@@ -1,5 +1,9 @@
 package com.bjpowernode.blog.base.constants;
 
+import com.bjpowernode.blog.base.util.UUIDUtil;
+
+import java.util.UUID;
+
 /**
  * Company :  北京动力节点
  * Author :   Andy
@@ -8,5 +12,5 @@ package com.bjpowernode.blog.base.constants;
  */
 public class BlogConstants {
 
-    public static String LOGIN_USER = "user";
+    public static final String LOGIN_USER = "user";
 }

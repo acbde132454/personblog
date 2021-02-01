@@ -15,7 +15,7 @@ public class LoginController {
     //跳转到后台登录页面
     @RequestMapping("/login")
     public String toLogin(){
-        return "../login";
+        return "redirect:/login.jsp";
     }
 
     //跳转到后台首页

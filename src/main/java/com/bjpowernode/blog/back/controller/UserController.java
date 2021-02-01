@@ -10,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -66,7 +64,7 @@ public class UserController {
     public String loginOut(HttpSession session){
         //从session中移除用户
         session.removeAttribute(BlogConstants.LOGIN_USER);
-        return "../login";
+        return "redirect:/login.jsp";
     }
 
     //校验用户修改信息输入旧密码是否正确
@@ -100,7 +98,7 @@ public class UserController {
             resultVo.setOk(true);
             resultVo.setMess("更新用户信息成功");
             //更新session中的用户信息
-            session.setAttribute(BlogConstants.LOGIN_USER,user);
+            session.setAttribute(BlogConstants.LOGIN_USER + user.getUid(),user);
         } catch (BlogException e) {
             resultVo.setOk(false);
             resultVo.setMess("更新用户信息失败");

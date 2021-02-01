@@ -37,8 +37,8 @@
                 </ul>
             </nav>
             <div class="blog-user">
-                <button class="login-btn" onclick="login()" style="font-size: 14px">登录</button>
-                <button class="login-btn" onclick="regist()"  style="color:#fff;font-size: 14px;background: rgb(62,196,131)">注册</button>
+                <button class="login-btn" onclick="login()" style="font-size: 12px">登录</button>
+                <button class="login-btn" onclick="regist()"  style="color:#fff;font-size: 12px;background: rgb(62,196,131)">注册</button>
             </div>
             <a class="phone-menu">
                 <i></i>
@@ -238,33 +238,65 @@
     <div class="form-inner-cont">
         <span id="registClose">X</span>
         <form action="#" method="post" class="signin-form">
+
             <div class="form-input">
                 <span class="fa fa-user-o" aria-hidden="true"></span>
-                <input autofocus type="text" name="email" placeholder="请输入用户名" required />
-            </div>
-            <div class="form-input">
-                <span class="fa fa-envelope-o" aria-hidden="true"></span>
-                <input type="email" name="email" placeholder="请输入邮箱" required />
+                <input autofocus type="text" name="username" placeholder="请输入用户名" required />
             </div>
             <div class="form-input">
                 <span class="fa fa-key" aria-hidden="true"></span>
                 <input type="password" name="password" placeholder="请输入密码"
-                                                                         required />
+                       required />
             </div>
             <div class="form-input">
                 <span class="fa fa-key" aria-hidden="true"></span>
-                <input type="password" name="password" placeholder="再次确认密码"
-                                                                          required />
+                <input type="password" name="password" placeholder="确认密码"
+                       required />
             </div>
-
+            <a href="javascript:;" class="a-upload">
+                <input type="file" name="img" id="uploadLogo" />上传头像
+            </a>
             <div class="login-remember d-grid">
-
                 <button style="width: 330px" class="btn theme-button">注册</button>
             </div>
         </form>
     </div>
 </div>
 <style type="text/css">
+    .a-upload {
+        padding: 5px 10px;
+        position: relative;
+        cursor: pointer;
+        background: #fafafa;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        overflow: hidden;
+        display: inline-block;
+        zoom: 1;
+        color:white;
+        background: #00a0e9;
+        display: inline-block;
+        width : 100%;
+        text-align: center;
+        height: 46px;
+        line-height: 46px;
+        margin-top: 20px;
+        text-align: center;
+    }
+
+    .a-upload  input {
+        position: absolute;
+        font-size: 100px;
+        right: 0;
+        top: 0;
+        opacity: 0;
+        filter: alpha(opacity=0);
+        cursor: pointer
+    }
+
+    .a-upload:hover {
+        text-decoration: none
+    }
     .login {
         position: absolute;
         top: 0; left: 0;

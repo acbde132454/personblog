@@ -32,4 +32,5 @@ public class User {
     private String loginIp;
     private String phone;
     private String loginCout;
+    private String img;
 }

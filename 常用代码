@@ -1,3 +1,18 @@
+异步上传头像:
+$('#uploadLogo').change(function () {
+    $.ajaxFileUpload({
+            url: '/crm/user/fileUpload', //用于文件上传的服务器端请求地址
+            fileElementId: 'uploadLogo', //文件上传域的ID
+            dataType: 'json', //返回值类型 一般设置为json
+            success : function (data,status) {
+                if(data.ok){
+                    layer.alert(data.message, {icon: 1});
+                }
+            },
+        }
+    )
+    return false;
+});
 确认框:
 layui.use('layer', function(){
     var layer = layui.layer;

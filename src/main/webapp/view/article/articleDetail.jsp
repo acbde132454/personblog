@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="/blog/font-awesome-4.7.0/css/font-awesome.css">
     <link rel="stylesheet" href="/blog/layui/css/layui.css"/>
     <link rel="stylesheet" href="/blog/css/fore/master.css"/>
-    <link rel="stylesheet" href="/blog/css/fore/gloable.css"/>
+    <link rel="stylesheet" href="/blog/css/fore/global.css"/>
     <link rel="stylesheet" href="/blog/css/fore/nprogress.css"/>
     <link rel="stylesheet" href="/blog/css/fore/blog.css"/>
     <link rel="stylesheet" href="/blog/css/fore/admin.css">
@@ -20,6 +20,10 @@
     <link type="text/css" rel="stylesheet" href="/blog/css/fore/shcore.css"/>
     <link type="text/css" rel="stylesheet" href="/blog/css/fore/shthemedefault.css"/>
     <link href="/blog/css/fore/css.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="/blog/css/fore/style.css" />
+    <link rel="stylesheet" href="/blog/bootstrap-3.3.7-dist/css/bootstrap.css" />
+
     <script language="javascript" type="text/javascript" src="/blog/js/code.js"></script>
     <script src="/blog/js/jquery/jquery-2.1.1.min.js"></script>
 
@@ -32,6 +36,10 @@
     <script src="/blog/editormd/lib/flowchart.min.js"></script>
     <script src="/blog/editormd/lib/jquery.flowchart.min.js"></script>
     <script src="/blog/editormd/editormd.js"></script>
+
+    <%--KingEditor--%>
+    <script charset="utf-8" src="/blog/kindeditor/kindeditor-all.js"></script>
+    <script charset="utf-8" src="/blog/kindeditor/lang/zh-CN.js"></script>
 </head>
 <body>
 <div class="header">
@@ -52,18 +60,11 @@
                     <li><a href="/About">关于</a></li>
                 </ul>
             </nav>
-            <div class="none"><span class="pull-right nav-search main-search" data-toggle="modal"
-                                    data-target=".nav-search-box"><i class="fa fa-search"></i></span></div>
-            <span id="_userlogin" class="pr">
-               <div class="blog-user">
-                    <button class="login-btn" id="login-btn">登录</button>
-                </div>
-                 </span>
-            <a class="phone-menu">
-                <i></i>
-                <i></i>
-                <i></i>
-            </a>
+            <div class="blog-user">
+                <button class="login-btn" onclick="login()" style="font-size: 12px">登录</button>
+                <button class="login-btn" onclick="regist()"  style="color:#fff;font-size: 12px;background: rgb(62,196,131)">注册</button>
+                <img style="border-radius: 100%;display: none" src="" />
+            </div>
         </div>
     </div>
 </header>
@@ -194,26 +195,23 @@
                         <div class="mt20 f-fwn fs-24 fc-grey comment"
                              style="border-top: 1px solid #e1e2e0; padding-top: 20px;">
                         </div>
-                        <h6>发表评论</h6>
+                        <h3>发表评论</h3>
 
                         <!-- //AJAX评论区 开始 -->
                         <div class="dedemao-comment">
                             <div class="dedemao-comment-box">
                                 <div class="b-box-textarea">
-                                    <div class="b-box-textarea-body">
-                                        <div class="b-box-content" contenteditable="true" onfocus="delete_hint(this)">
-                                            说点什么吧
-                                        </div>
+                                    <div class="b-box-textarea-body" >
+                                         
+                                         <img src="/blog/images/comment_bg.png" style="position: absolute ;right: 0;bottom: 60px" />
+                                         <textarea id="editor_id" name="content"
+                                                   style="width:100%;height:300px;">
+
+                                        </textarea>
                                     </div>
                                     <ul class="b-emote-submit">
-                                        <li class="b-emote">
-                                            <a class="ds-toolbar-button ds-add-emote" title="插入表情"
-                                               onclick="getTuzki(this)"></a>
-                                            <!--   <input class="b-email" onkeyup="getQQInfo(this)" type="text" name="email" data-type="电子邮箱" placeholder="你的电子邮箱" value="">-->
-                                            <div class="b-tuzki"></div>
-                                        </li>
                                         <li class="b-submit-button">
-                                            <input type="button" value="评 论" aid="6" pid="0" onclick="comment(this)"
+                                            <input type="button" value="评 论" aid="6" pid="0" onclick="punishComment()"
                                                    style="background-color: #6bc30d;">
                                         </li>
                                         <li class="b-clear-float"></li>
@@ -274,7 +272,7 @@
                                         <hr />
                                         <div class="comment-child">
                                             <a name="reply-1"></a>
-                                            <img src="http://www.lzqcode.com/uploads/userup/57/myface.png">
+                                            <img style="margin-left: 50px" src="http://www.lzqcode.com/uploads/userup/57/myface.png">
                                             <div class="info">
                                                 <span class="username">小刘</span>
                                                 <span style="padding-right:0;margin-left:-5px;">回复</span>
@@ -289,79 +287,23 @@
                                             </p>
                                         </div>
                                         <div class="replycontainer layui-hide">
-                                            <form class="layui-form" action="">
-                                                <input type="hidden" name="remarkId" value="1">
-                                                <input type="hidden" name="targetUserId" value="0">
-                                                <div class="layui-form-item">
-                                                    <textarea name="replyContent" lay-verify="replyContent" placeholder="请输入回复内容" class="layui-textarea" style="min-height:80px;"></textarea>
-                                                </div>
-                                                <div class="layui-form-item">
-                                                    <button class="layui-btn layui-btn-xs" lay-submit="formReply" lay-filter="formReply">提交</button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </li>
-                                    <li class="zoomIn article">
-                                        <div class="comment-parent">
-                                            <a name="remark-1"></a>
-                                            <img src="http://qzapp.qlogo.cn/qzapp/101871412/EE7AAE629D162B783C00149B4EDE3502/100" alt="{{name}}" />
-                                            <div class="info">
-                                                <span class="username">冰</span>
-                                            </div>
-                                            <div class="comment-content">
-                                                一天很短，开心了就笑，不开心了就过会儿再笑。
-                                            </div>
-                                            <p class="info info-footer">
-                                                <i class="fa fa-map-marker" aria-hidden="true"></i>
-                                                <span>深圳</span>
-                                                <span class="comment-time">2018-01-01</span>
-                                                <a href="javascript:;" class="btn-reply" data-targetid="1" data-targetname="冰">回复</a>
-                                            </p>
-                                        </div>
-                                        <div class="replycontainer layui-hide">
-                                            <form class="layui-form" action="">
-                                                <input type="hidden" name="remarkId" value="1">
-                                                <input type="hidden" name="targetUserId" value="0">
-                                                <div class="layui-form-item">
-                                                    <textarea name="replyContent" lay-verify="replyContent" placeholder="请输入回复内容" class="layui-textarea" style="min-height:80px;"></textarea>
-                                                </div>
+                                            <img src="/blog/images/comment_bg.png"
+                                                 style="position: absolute ;right: 0;top:375px;width:162px;height: 75px" />
+                                            <textarea id="editor_id01" name="content"
+                                                          style="width:100%;height:300px;">
+
+                                                </textarea>
+                                            <script>
+                                                    KindEditor.ready(function(K) {
+                                                        window.editor = K.create('#editor_id01');
+                                                    });
+                                                </script>
                                                 <div class="layui-form-item">
                                                     <button class="layui-btn layui-btn-xs" lay-submit="formReply" lay-filter="formReply">提交</button>
                                                 </div>
-                                            </form>
                                         </div>
                                     </li>
-                                    <li class="zoomIn article">
-                                        <div class="comment-parent">
-                                            <a name="remark-1"></a>
-                                            <img src="http://www.lzqcode.com/uploads/userup/57/myface.png"/>
-                                            <div class="info">
-                                                <span class="username">小刘</span>
-                                            </div>
-                                            <div class="comment-content">
-                                                哈哈哈哈哈哈哈哈哈或或或或或或或或或或或或或或
-                                            </div>
-                                            <p class="info info-footer">
-                                                <i class="fa fa-map-marker" aria-hidden="true"></i>
-                                                <span>深圳</span>
-                                                <span class="comment-time">2018-01-01</span>
-                                                <a href="javascript:;" class="btn-reply" data-targetid="1" data-targetname="小刘">回复</a>
-                                            </p>
-                                        </div>
-                                        <hr />
-                                        <div class="replycontainer layui-hide">
-                                            <form class="layui-form" action="">
-                                                <input type="hidden" name="remarkId" value="1">
-                                                <input type="hidden" name="targetUserId" value="0">
-                                                <div class="layui-form-item">
-                                                    <textarea name="replyContent" lay-verify="replyContent" placeholder="请输入回复内容" class="layui-textarea" style="min-height:80px;"></textarea>
-                                                </div>
-                                                <div class="layui-form-item">
-                                                    <button class="layui-btn layui-btn-xs" lay-submit="formReply" lay-filter="formReply">提交</button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </li>
+
                                 </ul>
                             </div>
                         </div>
@@ -391,6 +333,119 @@
         </div>
     </div>
 </footer>
+<%--遮罩层--%>
+<div class="login" style="display: none"></div>
+<%--登录模态窗口--%>
+<div class="loginWrapper" style="position: fixed;left: 460px;top:100px;z-index: 100000;display: none">
+    <div style="background: #F8F8F8;width: 370px;height: 40px;position: fixed">
+        <h3 style="font-size: 14px;margin:10px 10px">欢迎回来</h3>
+    </div>
+    <div class="form-inner-cont">
+        <span id="loginClose">X</span>
+        <form action="#" method="post" class="signin-form">
+            <div class="form-input">
+                <span class="fa fa-user-o" aria-hidden="true"></span>
+                <input autofocus type="email" name="email"
+                       placeholder="用户名" required />
+            </div>
+            <div class="form-input">
+                <span class="fa fa-key" aria-hidden="true"></span>
+                <input type="password" name="password" placeholder="密码"
+                       required />
+            </div>
+            <div class="login-remember d-grid" style="color: black">
+                <button style="width: 330px" class="btn theme-button">登录</button>
+            </div>
+            <div style="height:20px">
+            </div>
+        </form>
+    </div>
+</div>
+
+<%--注册模态窗口--%>
+<div class="registWrapper" style="position: fixed;left: 460px;top:100px;z-index: 100000;display: none">
+    <div style="background: #F8F8F8;width: 370px;height: 40px;position: fixed">
+        <h3 style="font-size: 14px;margin:10px 10px">账号注册</h3>
+    </div>
+    <div class="form-inner-cont">
+        <span id="registClose">X</span>
+        <form action="#" method="post" class="signin-form">
+
+            <div class="form-input">
+                <span class="fa fa-user-o" aria-hidden="true"></span>
+                <input autofocus type="text" name="username" placeholder="请输入用户名" required />
+            </div>
+            <div class="form-input">
+                <span class="fa fa-key" aria-hidden="true"></span>
+                <input type="password" name="password" placeholder="请输入密码"
+                       required />
+            </div>
+            <div class="form-input">
+                <span class="fa fa-key" aria-hidden="true"></span>
+                <input type="password" name="password" placeholder="确认密码"
+                       required />
+            </div>
+                <a href="javascript:;" class="a-upload">
+                    <input type="file" name="img" id="uploadLogo" />上传头像
+                </a>
+            <div class="login-remember d-grid">
+                <button style="width: 330px" class="btn theme-button">注册</button>
+            </div>
+        </form>
+    </div>
+</div>
+</a>
+<style type="text/css">
+    .a-upload {
+        padding: 5px 10px;
+        position: relative;
+        cursor: pointer;
+        background: #fafafa;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        overflow: hidden;
+        display: inline-block;
+        zoom: 1;
+        color:white;
+        background: #00a0e9;
+        display: inline-block;
+        width : 100%;
+        text-align: center;
+        height: 46px;
+        line-height: 46px;
+        margin-top: 20px;
+        text-align: center;
+    }
+
+    .a-upload  input {
+        position: absolute;
+        font-size: 100px;
+        right: 0;
+        top: 0;
+        opacity: 0;
+        filter: alpha(opacity=0);
+        cursor: pointer
+    }
+
+    .a-upload:hover {
+        text-decoration: none
+    }
+    .login {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%;
+        height: 3000px;
+        z-index: 100000;
+        background: rgba(0,0,0,.3);
+    }
+
+    #loginClose,#registClose{
+        font-size:16px;position:relative;left: 320px;top: -12px
+    }
+    #loginClose:hover,#registClose:hover{
+        cursor: pointer;
+    }
+</style>
 <script src="/blog/layui/layui.js"></script>
 <script src="/blog/js/yss/gloable.js"></script>
 <script src="/blog/js/plugins/nprogress.js"></script>
@@ -398,6 +453,7 @@
 <script src="/blog/js/logreg.js"></script>
 <script src="/blog/js/comment.js"></script>
 <script src="/blog/js/pagemessage.js"></script>
+<script src="/blog/layui/lay/modules/layer.js"></script>
 
 
 <script>NProgress.start();</script>
@@ -406,6 +462,64 @@
     window.onload = function () {
         NProgress.done();
     };
+
+    //点击关闭登录窗口
+    $('#loginClose').click(function () {
+        $('.loginWrapper').css('display','none');
+        $('.login').css('display','none');
+    });
+
+    //登录
+    function login() {
+        $('.loginWrapper').css('display','block');
+        $('.login').css('display','block');
+    }
+
+    //点击关闭注册窗口
+    $('#registClose').click(function () {
+        $('.registWrapper').css('display','none');
+        $('.login').css('display','none');
+    });
+
+    //登录
+    function regist() {
+        $('.registWrapper').css('display','block');
+        $('.login').css('display','block');
+    }
+
+    //初始化kindEditor
+    var editor;
+    KindEditor.ready(function(K) {
+        editor = K.create('#editor_id');
+    });
+
+    //发布评论
+    function punishComment() {
+        //没有输入评论内容
+        if(editor.html() == ""){
+            layer.msg('请输入评论内容');
+            return;
+        }else{
+            //评论不为空，发送异步请求添加评论
+            $.get('/blog/article/saveComments',function (data) {
+                    //用户没有登录
+                    if(!data.ok){
+                        layer.msg(data.mess);
+                    }else{
+                        //用户登录了
+                        $.get('/blog/article/saveComments',{
+                            'adi' : '${article.aid}',
+                            'uid' : '${article.uid}',
+                            'content' : editor.html()
+                        },function (data) {
+                            if(data.ok){
+                                layer.msg(data.mess);
+                            }
+                        },'json');
+                    }
+            },'json');
+        }
+    }
 </script>
 
 </body>

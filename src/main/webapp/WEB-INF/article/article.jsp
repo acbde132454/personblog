@@ -352,7 +352,8 @@
                             "                <td class=\"hidden-sm\">"+article.thumbsUp+"</td>\n" +
                             "                <td>"+article.create_time+"</td>\n" +
                             "                <td>\n" +
-                            "                    <a href=\"/blog/article/queryById?aid="+article.aid+"\">修改</a> <a href='javascript:void(0)' onclick='deleteArticle("+article.aid+")'>删除</a>&nbsp;\n" +
+                            "                    <a href=\"/blog/article/queryById?aid="+article.aid+"\">修改</a> <a href='javascript:void(0)' onclick='deleteArticle("+article.aid+")'>删除</a>" +
+                            "<a href=\"/blog/article/queryById?aid=\"+article.aid+\"\\\">置顶</a>&nbsp;\n" +
                             "                    <input onclick='changeOpen($(this))'  type=\"radio\" name="+article.aid+" value=\"1\" />公开 <input onclick='changeOpen($(this))' type=\"radio\" name="+article.aid+" value=\"0\" checked />私密\n" +
                             "                </td>\n" +
                             "              </tr>"
@@ -365,7 +366,8 @@
                         "                <td class=\"hidden-sm\">"+article.thumbsUp+"</td>\n" +
                         "                <td>"+article.create_time+"</td>\n" +
                         "                <td>\n" +
-                        "                    <a href=\"/blog/article/queryById?aid="+article.aid+"\" >修改</a> <a href='javascript:void(0)' onclick='deleteArticle("+article.aid+")'>删除</a>&nbsp;\n" +
+                        "                    <a href=\"/blog/article/queryById?aid="+article.aid+"\" >修改</a> " +
+                           "<a href='javascript:void(0)' onclick='deleteArticle("+article.aid+")'>删除</a> <a href=\"/blog/article/queryById?aid=\"+article.aid+\"\\\">置顶</a>&nbsp;\n" +
                         "                    <input onclick='changeOpen($(this))'  type=\"radio\" name="+article.aid+" value=\"1\" checked />公开 <input onclick='changeOpen($(this))'  type=\"radio\" name="+article.aid+" value=\"0\" />私密\n" +
                         "                </td>\n" +
                         "              </tr>"
