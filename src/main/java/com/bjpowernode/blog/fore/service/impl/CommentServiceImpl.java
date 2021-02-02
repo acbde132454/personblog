@@ -15,7 +15,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public void saveComments(Comment comment) {
-        comment.setIsLock("1");
+        comment.setIsLock("0");
         comment.setCreate_time(DateTimeUtil.getSysTime());
         commentMapper.insertSelective(comment);
     }
