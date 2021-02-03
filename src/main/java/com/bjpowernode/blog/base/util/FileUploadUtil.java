@@ -21,10 +21,8 @@ public class FileUploadUtil {
 
     public static Map<String,Object> fileUpload(MultipartFile img, HttpServletRequest request){
         HttpSession session = request.getSession();
-        User user = (User) session.getAttribute(BlogConstants.LOGIN_USER);
         //创建文件上传的目录 结构为:upload/日期/用户名/文件名
-        String path = File.separator + "upload" + File.separator + DateTimeUtil.getDate()
-                + File.separator + user.getUsername();
+        String path = File.separator + "upload" + File.separator + DateTimeUtil.getDate();
         String realPath = session.getServletContext().
                 getRealPath(path);
         File file = new File(realPath);
@@ -32,6 +30,7 @@ public class FileUploadUtil {
         if(!file.exists()){
             file.mkdirs();
         }
+
         //获取上传文件名
         String fileName = img.getOriginalFilename();
         //防止上传文件重名
@@ -48,7 +47,7 @@ public class FileUploadUtil {
             //调用上传文件方法
             img.transferTo(new File(realPath + File.separator + fileName));
             map.put("success",1);//只能写数字1
-            map.put("message","上传成功");
+            map.put("message","上传图片成功");
             map.put("url",url);
         } catch (IOException e) {
             e.printStackTrace();

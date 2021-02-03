@@ -50,7 +50,7 @@ Ajax get请求
 $.get("",{},function(data){},'json');
 
 Ajax post请求
-$.get("",{},function(data){},'json');
+$.post("",{},function(data){},'json');
 
 Ajax请求
 $.ajax({

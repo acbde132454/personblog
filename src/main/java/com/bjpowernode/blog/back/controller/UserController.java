@@ -26,6 +26,43 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    //前台用户登录
+    @RequestMapping("/user/foreLogin")
+    public ResultVo foreLogin(User user,HttpSession session){
+        ResultVo resultVo = new ResultVo();
+        user = userService.foreLogin(user);
+        resultVo.setOk(true);
+        session.setAttribute(BlogConstants.LOGIN_USER,user);
+        return resultVo;
+    }
+
+
+    //前台异步校验用户名是否被注册
+    @RequestMapping("/user/verifyUsername")
+    @ResponseBody
+    public ResultVo verifyUsername(String username){
+        ResultVo resultVo = new ResultVo();
+        boolean isRegisted = userService.verifyUsername(username);
+        resultVo.setOk(isRegisted);
+        if(isRegisted){
+            resultVo.setMess("用户名已被注册");
+        }else{
+            resultVo.setMess("该用户名可以被注册^_^");
+        }
+        return resultVo;
+    }
+
+    //前台用户注册
+    @RequestMapping("/user/regist")
+    @ResponseBody
+    public ResultVo regist(User user){
+        ResultVo resultVo = new ResultVo();
+        userService.regist(user);
+        resultVo.setOk(true);
+        resultVo.setMess("恭喜您，注册成功");
+        return resultVo;
+    }
+
     /**
      * 登录功能
      */

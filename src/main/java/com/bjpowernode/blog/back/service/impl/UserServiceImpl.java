@@ -65,4 +65,27 @@ public class UserServiceImpl implements UserService {
             throw new BlogException(BlogExceptionEnum.USER_UPDATE);
         }
     }
+
+    @Override
+    public void regist(User user) {
+        //普通用户
+        user.setRole("0");
+        //密码加密
+        user.setPassword(SecureUtil.md5(user.getPassword()));
+        userMapper.insertSelective(user);
+    }
+
+    @Override
+    public boolean verifyUsername(String username) {
+        User user = new User();
+        user.setUsername(username);
+        List<User> users = userMapper.select(user);
+        return users.size() > 0 ? true : false;
+    }
+
+    @Override
+    public User foreLogin(User user) {
+        List<User> users = userMapper.select(user);
+        return users.get(0);
+    }
 }

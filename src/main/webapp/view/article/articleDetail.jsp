@@ -40,6 +40,9 @@
     <%--KingEditor--%>
     <script charset="utf-8" src="/blog/kindeditor/kindeditor-all.js"></script>
     <script charset="utf-8" src="/blog/kindeditor/lang/zh-CN.js"></script>
+
+     <%--异步上传js--%>
+    <script src="/blog/js/ajaxfileupload.js"></script>
 </head>
 <body>
 <div class="header">
@@ -63,7 +66,12 @@
             <div class="blog-user">
                 <button class="login-btn" onclick="login()" style="font-size: 12px">登录</button>
                 <button class="login-btn" onclick="regist()"  style="color:#fff;font-size: 12px;background: rgb(62,196,131)">注册</button>
-                <img style="border-radius: 100%;display: none" src="" />
+                <c:if test="${user eq null}">
+                    <img style="border-radius: 100%;display: none" src="" />
+                </c:if>
+                <c:if test="${user != null}">
+                    <img style="border-radius: 100%;" src="${user.img}" />
+                </c:if>
             </div>
         </div>
     </div>
@@ -369,11 +377,15 @@
     </div>
     <div class="form-inner-cont">
         <span id="registClose">X</span>
-        <form action="#" method="post" class="signin-form">
-
+        <form id="registForm" method="post" class="signin-form">
+            <input type="hidden" id="img" name="img" />
             <div class="form-input">
                 <span class="fa fa-user-o" aria-hidden="true"></span>
-                <input autofocus type="text" name="username" placeholder="请输入用户名" required />
+                <input autofocus type="text" id="username" name="username" placeholder="请输入用户名" required />
+            </div>
+            <div class="form-input">
+                <span class="fa fa-user-o" aria-hidden="true"></span>
+                <input autofocus type="text" name="nickname" placeholder="请输入昵称" required />
             </div>
             <div class="form-input">
                 <span class="fa fa-key" aria-hidden="true"></span>
@@ -382,14 +394,14 @@
             </div>
             <div class="form-input">
                 <span class="fa fa-key" aria-hidden="true"></span>
-                <input type="password" name="password" placeholder="确认密码"
+                <input type="password" name="confirmPassword" placeholder="确认密码"
                        required />
             </div>
                 <a href="javascript:;" class="a-upload">
                     <input type="file" name="img" id="uploadLogo" />上传头像
                 </a>
             <div class="login-remember d-grid">
-                <button style="width: 330px" class="btn theme-button">注册</button>
+                <button style="width: 330px" id="registBtn" type="button" class="btn theme-button">注册</button>
             </div>
         </form>
     </div>
@@ -434,7 +446,7 @@
         position: absolute;
         top: 0; left: 0;
         width: 100%;
-        height: 3000px;
+        height: 100000px;
         z-index: 100000;
         background: rgba(0,0,0,.3);
     }
@@ -451,7 +463,6 @@
 <script src="/blog/js/plugins/nprogress.js"></script>
 
 <script src="/blog/js/logreg.js"></script>
-<script src="/blog/js/comment.js"></script>
 <script src="/blog/js/pagemessage.js"></script>
 <script src="/blog/layui/lay/modules/layer.js"></script>
 
@@ -462,6 +473,62 @@
     window.onload = function () {
         NProgress.done();
     };
+
+    //点击注册按钮，异步注册
+    $('#registBtn').click(function () {
+        $.ajax({
+            url: '/blog/user/regist',
+            data: $('#registForm').serialize(),
+            type: 'post',
+            dataType: 'json',
+            success: function (data) {
+                if(data.ok){
+                    layer.alert(data.mess, {icon: 1});
+                    //关闭模态窗口
+                    $('.registWrapper').css("display","none");
+                    //关闭遮罩层
+                    $('.login').css("display","none");
+                    return;
+                }
+            },
+        });
+    })
+
+    //异步校验用户名是否被注册
+    $('#username').blur(function () {
+        $.get("/blog/user/verifyUsername",{
+            'username' : $(this).val()
+        },function(data){
+            if(data.ok){
+                layer.alert(data.mess,{icon : 5});
+            }else {
+                layer.alert(data.mess,{icon : 6});
+            }
+            return;
+        },'json');
+    });
+
+
+
+    //异步上传注册头像
+    $('#uploadLogo').change(function () {
+        $.ajaxFileUpload({
+                url: '/blog/imageUpload', //用于文件上传的服务器端请求地址
+                fileElementId: 'uploadLogo', //文件上传域的ID
+                dataType: 'json', //返回值类型 一般设置为json
+                success : function (data,status) {
+
+                    if(data.success == 1){
+                        layer.alert(data.message, {icon: 1});
+                        //在隐藏域保存上传图片路径
+                        $('#img').val(data.url);
+                        return;
+                    }
+                },
+            }
+        )
+        return false;
+    });
 
     //点击关闭登录窗口
     $('#loginClose').click(function () {
