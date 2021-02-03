@@ -37,8 +37,15 @@
                 </ul>
             </nav>
             <div class="blog-user">
-                <button class="login-btn" onclick="login()" style="font-size: 12px">登录</button>
-                <button class="login-btn" onclick="regist()"  style="color:#fff;font-size: 12px;background: rgb(62,196,131)">注册</button>
+                <c:if test="${user eq null}">
+                    <button class="login-btn" id="btn1" onclick="login()" style="font-size: 12px">登录</button>
+                    <button class="login-btn" onclick="regist()"  style="color:#fff;font-size: 12px;background: rgb(62,196,131)">注册</button>
+                    <img id="userImg" style="border-radius: 100%;display: none" src="" />
+                </c:if>
+                <c:if test="${user != null}">
+                    <button class="login-btn" onclick="regist()"  style="color:#fff;font-size: 12px;background: rgb(62,196,131)">注册</button>
+                    <img id="userImg" style="border-radius: 100%;" src="${user.img}" />
+                </c:if>
             </div>
             <a class="phone-menu">
                 <i></i>
@@ -210,10 +217,10 @@
     </div>
     <div class="form-inner-cont">
         <span id="loginClose">X</span>
-        <form action="#" method="post" class="signin-form">
+        <form id="loginForm" method="post" class="signin-form">
             <div class="form-input">
                 <span class="fa fa-user-o" aria-hidden="true"></span>
-                <input autofocus type="email" name="email"
+                <input autofocus type="text" name="username"
                        placeholder="用户名" required />
             </div>
             <div class="form-input">
@@ -222,7 +229,7 @@
                                                                           required />
             </div>
             <div class="login-remember d-grid" style="color: black">
-                <button style="width: 330px" class="btn theme-button">登录</button>
+                <button type="button" id="loginBtn" style="width: 330px" class="btn theme-button">登录</button>
             </div>
             <div style="height:20px">
             </div>
@@ -359,6 +366,88 @@
         },'json'
         );
     }
+
+    //点击登录按钮，异步登录
+    $('#loginBtn').click(function () {
+        $.ajax({
+            url: '/blog/user/foreLogin',
+            data: $('#loginForm').serialize(),
+            type: 'post',
+            dataType: 'json',
+            success: function (data) {
+                console.log(data);
+                if(data.ok){
+                    layer.alert(data.mess, {icon: 6});
+                    //关闭模态窗口
+                    $('.loginWrapper').css("display","none");
+                    //关闭遮罩层
+                    $('.login').css("display","none");
+                    //登录按钮隐藏
+                    $('#btn1').css("display","none");
+                    //设置用户头像
+                    $('#userImg').css("display","inline");
+                    $('#userImg').prop('src',data.t.img);
+                    return;
+                }
+            },
+        });
+    });
+
+    //点击注册按钮，异步注册
+    $('#registBtn').click(function () {
+        $.ajax({
+            url: '/blog/user/regist',
+            data: $('#registForm').serialize(),
+            type: 'post',
+            dataType: 'json',
+            success: function (data) {
+                if(data.ok){
+                    layer.alert(data.mess, {icon: 1});
+                    //关闭模态窗口
+                    $('.registWrapper').css("display","none");
+                    //关闭遮罩层
+                    $('.login').css("display","none");
+                    return;
+                }
+            },
+        });
+    })
+
+    //异步校验用户名是否被注册
+    $('#username').blur(function () {
+        $.get("/blog/user/verifyUsername",{
+            'username' : $(this).val()
+        },function(data){
+            if(data.ok){
+                layer.alert(data.mess,{icon : 5});
+            }else {
+                layer.alert(data.mess,{icon : 6});
+            }
+            return;
+        },'json');
+    });
+
+
+
+    //异步上传注册头像
+    $('#uploadLogo').change(function () {
+        $.ajaxFileUpload({
+                url: '/blog/imageUpload', //用于文件上传的服务器端请求地址
+                fileElementId: 'uploadLogo', //文件上传域的ID
+                dataType: 'json', //返回值类型 一般设置为json
+                success : function (data,status) {
+
+                    if(data.success == 1){
+                        layer.alert(data.message, {icon: 1});
+                        //在隐藏域保存上传图片路径
+                        $('#img').val(data.url);
+                        return;
+                    }
+                },
+            }
+        )
+        return false;
+    });
 
 </script>
 </body>

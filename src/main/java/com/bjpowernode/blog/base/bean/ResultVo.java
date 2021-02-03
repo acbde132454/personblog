@@ -13,9 +13,10 @@ import java.util.List;
  */
 @Data
 @ToString
-public class ResultVo {
+public class ResultVo<T> {
 
     private boolean isOk;//是否成功
     private String mess;//返回给客户端的具体消息
-    private List data;//给客户端返回的数据
+    private List<T> data;//给客户端返回的数据
+    private T t;//返回单个对象
 }

@@ -28,11 +28,14 @@ public class UserController {
 
     //前台用户登录
     @RequestMapping("/user/foreLogin")
+    @ResponseBody
     public ResultVo foreLogin(User user,HttpSession session){
         ResultVo resultVo = new ResultVo();
         user = userService.foreLogin(user);
         resultVo.setOk(true);
+        resultVo.setMess("登录成功");
         session.setAttribute(BlogConstants.LOGIN_USER,user);
+        resultVo.setT(user);
         return resultVo;
     }
 

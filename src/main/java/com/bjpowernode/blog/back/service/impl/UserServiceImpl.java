@@ -85,6 +85,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User foreLogin(User user) {
+        user.setPassword(SecureUtil.md5(user.getPassword()));
         List<User> users = userMapper.select(user);
         return users.get(0);
     }

@@ -45,6 +45,7 @@
     <script src="/blog/js/ajaxfileupload.js"></script>
 </head>
 <body>
+${user}
 <div class="header">
 </div>
 <header class="gird-header">
@@ -64,13 +65,15 @@
                 </ul>
             </nav>
             <div class="blog-user">
-                <button class="login-btn" onclick="login()" style="font-size: 12px">登录</button>
-                <button class="login-btn" onclick="regist()"  style="color:#fff;font-size: 12px;background: rgb(62,196,131)">注册</button>
+
                 <c:if test="${user eq null}">
-                    <img style="border-radius: 100%;display: none" src="" />
+                    <button class="login-btn" id="btn1" onclick="login()" style="font-size: 12px">登录</button>
+                    <button class="login-btn" onclick="regist()"  style="color:#fff;font-size: 12px;background: rgb(62,196,131)">注册</button>
+                    <img id="userImg" style="border-radius: 100%;display: none" src="" />
                 </c:if>
                 <c:if test="${user != null}">
-                    <img style="border-radius: 100%;" src="${user.img}" />
+                    <button class="login-btn" onclick="regist()"  style="color:#fff;font-size: 12px;background: rgb(62,196,131)">注册</button>
+                    <img id="userImg" style="border-radius: 100%;" src="${user.img}" />
                 </c:if>
             </div>
         </div>
@@ -142,7 +145,7 @@
                             <h4>${article.title}</h4>
                             <p class="fc-grey fs-14">
                                 <small>
-                                    作者：<a href="javascript:void(0)" target="_blank" class="fc-link">${article.uid} </a>
+                                    作者：<a href="javascript:void(0)" target="_blank" class="fc-link">${article.user.nickname} </a>
                                 </small>
                                 <small class="ml10">围观群众：${article.visit_count}</small>
                                 <small class="ml10">更新于 <label>${article.update_time}</label></small>
@@ -260,20 +263,21 @@
                             </div>
                             <div class="mt20">
                                 <ul class="message-list" id="message-list">
+                                    <c:forEach items="${article.comments}" var="${comment}">
+
                                     <li class="zoomIn article">
                                         <div class="comment-parent">
                                             <a name="remark-1"></a>
                                             <img src="http://qzapp.qlogo.cn/qzapp/101871412/EE7AAE629D162B783C00149B4EDE3502/100" />
                                             <div class="info">
-                                                <span class="username">冰</span>
+                                                <span class="username">${comment.nickname}</span>
                                             </div>
                                             <div class="comment-content">
-                                                大哥带一下
+                                                ${comment.content}
                                             </div>
                                             <p class="info info-footer">
                                                 <i class="fa fa-map-marker" aria-hidden="true"></i>
-                                                <span>深圳</span>
-                                                <span class="comment-time">2020-07-01</span>
+                                                <span class="comment-time">  ${comment.createT-time}</span>
                                                 <a href="javascript:;" class="btn-reply" data-targetid="1" data-targetname="冰">回复</a>
                                             </p>
                                         </div>
@@ -300,18 +304,13 @@
                                             <textarea id="editor_id01" name="content"
                                                           style="width:100%;height:300px;">
 
-                                                </textarea>
-                                            <script>
-                                                    KindEditor.ready(function(K) {
-                                                        window.editor = K.create('#editor_id01');
-                                                    });
-                                                </script>
-                                                <div class="layui-form-item">
-                                                    <button class="layui-btn layui-btn-xs" lay-submit="formReply" lay-filter="formReply">提交</button>
-                                                </div>
+                                            </textarea>
+                                            <div class="layui-form-item">
+                                                <button class="layui-btn layui-btn-xs" lay-submit="formReply" lay-filter="formReply">提交</button>
+                                            </div>
                                         </div>
                                     </li>
-
+                                    </c:forEach>
                                 </ul>
                             </div>
                         </div>
@@ -350,10 +349,10 @@
     </div>
     <div class="form-inner-cont">
         <span id="loginClose">X</span>
-        <form action="#" method="post" class="signin-form">
+        <form id="loginForm" method="post" class="signin-form">
             <div class="form-input">
                 <span class="fa fa-user-o" aria-hidden="true"></span>
-                <input autofocus type="email" name="email"
+                <input autofocus type="text" name="username"
                        placeholder="用户名" required />
             </div>
             <div class="form-input">
@@ -362,7 +361,7 @@
                        required />
             </div>
             <div class="login-remember d-grid" style="color: black">
-                <button style="width: 330px" class="btn theme-button">登录</button>
+                <button type="button" id="loginBtn" style="width: 330px" class="btn theme-button">登录</button>
             </div>
             <div style="height:20px">
             </div>
@@ -473,6 +472,31 @@
     window.onload = function () {
         NProgress.done();
     };
+    
+    //点击登录按钮，异步登录
+    $('#loginBtn').click(function () {
+        $.ajax({
+            url: '/blog/user/foreLogin',
+            data: $('#loginForm').serialize(),
+            type: 'post',
+            dataType: 'json',
+            success: function (data) {
+                if(data.ok){
+                    layer.alert(data.mess, {icon: 6});
+                    //关闭模态窗口
+                    $('.loginWrapper').css("display","none");
+                    //关闭遮罩层
+                    $('.login').css("display","none");
+                    //登录按钮隐藏
+                    $('#btn1').css("display","none");
+                    //设置用户头像
+                    $('#userImg').css("display","inline");
+                    $('#userImg').prop('src',data.t.img);
+                    return;
+                }
+            },
+        });
+    });
 
     //点击注册按钮，异步注册
     $('#registBtn').click(function () {
@@ -554,7 +578,12 @@
         $('.login').css('display','block');
     }
 
-    //初始化kindEditor
+
+    //回复评论kingEditor
+    KindEditor.ready(function(K) {
+        window.editor = K.create('#editor_id01');
+    });
+    //发表评论kingEditor
     var editor;
     KindEditor.ready(function(K) {
         editor = K.create('#editor_id');
@@ -568,21 +597,16 @@
             return;
         }else{
             //评论不为空，发送异步请求添加评论
-            $.get('/blog/article/saveComments',function (data) {
+            $.get('/blog/article/saveComments',{
+                'aid' : '${article.aid}',
+                'uid' : '${article.uid}',
+                'from_uid' : '${user.uid}',
+                'content' : editor.html()
+            },function (data) {
                     //用户没有登录
-                    if(!data.ok){
-                        layer.msg(data.mess);
-                    }else{
-                        //用户登录了
-                        $.get('/blog/article/saveComments',{
-                            'adi' : '${article.aid}',
-                            'uid' : '${article.uid}',
-                            'content' : editor.html()
-                        },function (data) {
-                            if(data.ok){
-                                layer.msg(data.mess);
-                            }
-                        },'json');
+                    layer.msg(data.mess);
+                    if(data.ok){
+
                     }
             },'json');
         }

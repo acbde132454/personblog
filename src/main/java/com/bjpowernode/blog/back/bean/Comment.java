@@ -7,6 +7,7 @@ import tk.mybatis.mapper.code.Style;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.List;
 
 @Table(name = "t_comments")
 @Data
@@ -24,5 +25,7 @@ public class Comment {
     private String from_uid;//评论者id
     private String nickname;//评论者昵称
     private String thumb_img;//评论者头像
+    private String comment_count;//评论个数
 
+    private List<Comment> secondComments;//二级评论
 }

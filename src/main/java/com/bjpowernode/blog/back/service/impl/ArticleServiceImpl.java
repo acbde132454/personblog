@@ -2,6 +2,7 @@ package com.bjpowernode.blog.back.service.impl;
 
 import com.bjpowernode.blog.back.bean.Article;
 import com.bjpowernode.blog.back.bean.Category;
+import com.bjpowernode.blog.back.bean.Comment;
 import com.bjpowernode.blog.back.bean.User;
 import com.bjpowernode.blog.back.mapper.ArticleMapper;
 import com.bjpowernode.blog.back.mapper.CategoryMapper;
@@ -10,6 +11,7 @@ import com.bjpowernode.blog.back.service.ArticleService;
 import com.bjpowernode.blog.base.exception.BlogException;
 import com.bjpowernode.blog.base.exception.BlogExceptionEnum;
 import com.bjpowernode.blog.base.util.DateTimeUtil;
+import com.bjpowernode.blog.fore.mapper.CommentMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
@@ -33,10 +35,15 @@ public class ArticleServiceImpl implements ArticleService {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private CommentMapper commentMapper;
+
     @Override
     public void saveOrUpdateArticle(Article article,String aid) {
         if(aid == null){
             //添加
+            //是否被评论
+            article.setIsCommented("0");
             //访问量
             article.setVisit_count(0+"");
             //创建时间
@@ -95,7 +102,25 @@ public class ArticleServiceImpl implements ArticleService {
     public Article queryById(String aid) {
         Article article = articleMapper.selectByPrimaryKey(aid);
         User user = userMapper.selectByPrimaryKey(article.getUid());
-        article.setUid(user.getNickname());
+        article.setUser(user);
+
+        //文章的评论
+        if(article.getIsCommented().equals("1")){
+            Comment comment = new Comment();
+            comment.setAid(article.getAid());
+            List<Comment> comments = commentMapper.select(comment);
+            for (Comment comment1 : comments) {
+                if(comment1.getPid() == null){
+                    //当前评论是该文章下的一级评论，遍历查询当前评论下的二级评论
+                    Comment comment2 = new Comment();
+                    comment2.setPid(comment1.getId());
+                    List<Comment> commentList = commentMapper.select(comment2);
+                    //将二级评论设置到当前一级评论下
+                    comment1.setSecondComments(commentList);
+                }
+            }
+            article.setComments(comments);
+        }
         return article;
     }
 
