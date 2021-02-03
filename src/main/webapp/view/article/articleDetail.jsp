@@ -45,7 +45,7 @@
     <script src="/blog/js/ajaxfileupload.js"></script>
 </head>
 <body>
-${user}
+${article.comments}
 <div class="header">
 </div>
 <header class="gird-header">
@@ -263,12 +263,17 @@ ${user}
                             </div>
                             <div class="mt20">
                                 <ul class="message-list" id="message-list">
-                                    <c:forEach items="${article.comments}" var="${comment}">
+                                    <c:forEach items="${article.comments}" var="comment">
 
                                     <li class="zoomIn article">
                                         <div class="comment-parent">
                                             <a name="remark-1"></a>
-                                            <img src="http://qzapp.qlogo.cn/qzapp/101871412/EE7AAE629D162B783C00149B4EDE3502/100" />
+                                            <c:if test="${comment.thumb_img eq null}">
+                                                <img src="/blog/images/Admin.png" />
+                                            </c:if>
+                                            <c:if test="${not empty comment.thumb_img}">
+                                                <img src="${comment.thumb_img}" />
+                                            </c:if>
                                             <div class="info">
                                                 <span class="username">${comment.nickname}</span>
                                             </div>
@@ -277,31 +282,32 @@ ${user}
                                             </div>
                                             <p class="info info-footer">
                                                 <i class="fa fa-map-marker" aria-hidden="true"></i>
-                                                <span class="comment-time">  ${comment.createT-time}</span>
+                                                <span class="comment-time">  ${comment.create_time}</span>
                                                 <a href="javascript:;" class="btn-reply" data-targetid="1" data-targetname="冰">回复</a>
                                             </p>
                                         </div>
                                         <hr />
-                                        <div class="comment-child">
-                                            <a name="reply-1"></a>
-                                            <img style="margin-left: 50px" src="http://www.lzqcode.com/uploads/userup/57/myface.png">
-                                            <div class="info">
-                                                <span class="username">小刘</span>
-                                                <span style="padding-right:0;margin-left:-5px;">回复</span>
-                                                <span class="username">冰</span>
-                                                <span>哈哈哈哈哈哈哈哈哈哈或或或或或或或或或或或或或或或</span>
+                                        <c:forEach items="${comment.secondComments}" var="secondComment">
+                                            <div class="comment-child">
+                                                <a name="reply-1"></a>
+                                                <img style="margin-left: 50px" src="http://www.lzqcode.com/uploads/userup/57/myface.png">
+                                                <div class="info">
+                                                    <span class="username">${secondComment.nickname}</span>
+                                                    <span style="padding-right:0;margin-left:-5px;">回复</span>
+                                                    <span class="username">${comment.nickname}</span>
+                                                    <span>${secondComment.content}</span>
+                                                </div>
+                                                <p class="info">
+                                                    <i class="fa fa-map-marker" aria-hidden="true"></i>
+                                                    <span class="comment-time">${secondComment.create_time}</span>
+                                                    <a href="javascript:;" class="btn-reply" data-targetid="2" data-targetname="小刘">回复</a>
+                                                </p>
                                             </div>
-                                            <p class="info">
-                                                <i class="fa fa-map-marker" aria-hidden="true"></i>
-                                                <span>深圳</span>
-                                                <span class="comment-time">2018-01-01</span>
-                                                <a href="javascript:;" class="btn-reply" data-targetid="2" data-targetname="小刘">回复</a>
-                                            </p>
-                                        </div>
+                                        </c:forEach>
                                         <div class="replycontainer layui-hide">
                                             <img src="/blog/images/comment_bg.png"
                                                  style="position: absolute ;right: 0;top:375px;width:162px;height: 75px" />
-                                            <textarea id="editor_id01" name="content"
+                                            <textarea class="editor" name="content"
                                                           style="width:100%;height:300px;">
 
                                             </textarea>
@@ -581,7 +587,7 @@ ${user}
 
     //回复评论kingEditor
     KindEditor.ready(function(K) {
-        window.editor = K.create('#editor_id01');
+        window.editor = K.create('.editor');
     });
     //发表评论kingEditor
     var editor;

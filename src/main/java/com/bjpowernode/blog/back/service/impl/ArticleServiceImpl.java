@@ -108,16 +108,18 @@ public class ArticleServiceImpl implements ArticleService {
         if(article.getIsCommented().equals("1")){
             Comment comment = new Comment();
             comment.setAid(article.getAid());
-            List<Comment> comments = commentMapper.select(comment);
+            Example example = new Example(Comment.class);
+            example.createCriteria().andEqualTo("aid",article.getAid())
+                    .andIsNull("pid");
+            //该集合是所有一级评论
+            List<Comment> comments = commentMapper.selectByExample(example);
             for (Comment comment1 : comments) {
-                if(comment1.getPid() == null){
-                    //当前评论是该文章下的一级评论，遍历查询当前评论下的二级评论
-                    Comment comment2 = new Comment();
-                    comment2.setPid(comment1.getId());
-                    List<Comment> commentList = commentMapper.select(comment2);
-                    //将二级评论设置到当前一级评论下
-                    comment1.setSecondComments(commentList);
-                }
+                //当前评论是该文章下的一级评论，遍历查询当前评论下的二级评论
+                Comment comment2 = new Comment();
+                comment2.setPid(comment1.getId());
+                List<Comment> commentList = commentMapper.select(comment2);
+                //将二级评论设置到当前一级评论下
+                comment1.setSecondComments(commentList);
             }
             article.setComments(comments);
         }
